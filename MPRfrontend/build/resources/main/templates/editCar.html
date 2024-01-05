@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Edytuj samochod:</h1>
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+<p>Edytowane auto: [[${car.id}]]</p>
+<form action="#" th:action="@{/editCar}" th:object="${car}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <table>
+        <tr>
+            <td>Marka:</td>
+            <td><input id="brand" type="text" th:field="*{brand}" name="brand"></td>
+        </tr>
+        <tr>
+            <td>Model:</td>
+            <td><input id="model" type="text" th:field="*{model}" name="model"></td>
+        </tr>
+        <tr>
+            <td>Cena:</td>
+            <td><input id="price" type="text" th:field="*{price}" name="price"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

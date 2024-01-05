@@ -1,5 +1,6 @@
-package com.example.MPRprojekt.Exceptions;
+package com.example.MPRprojekt.Controllers;
 
+import com.example.MPRprojekt.Exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

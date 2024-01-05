@@ -4,57 +4,90 @@ import com.example.MPRprojekt.Exceptions.CarIdAlreadyExistsException;
 import com.example.MPRprojekt.Exceptions.CarNotFoundException;
 import com.example.MPRprojekt.Exceptions.InvalidCarDataException;
 import com.example.MPRprojekt.Exceptions.InvalidCarIdException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class CarService {
-    CarRepository repository;
-    public CarService(CarRepository repository){
-        this.repository = repository;
+    public static final String BASE_URL = "http://localhost:8080";
+    RestClient restClient;
+    public CarService(){
+        restClient = RestClient.create();
     }
-    public Car getCarByModel(String model) {
-        Car car = repository.findByModel(model);
-        if (car == null) {
-            throw new CarNotFoundException("Samochód o modelu " + model + " nie istnieje.");
+//    public Car getCarByModel(String model) {
+//        Car car = repository.findByModel(model);
+//        if (car == null) {
+//            throw new CarNotFoundException("Samochód o modelu " + model + " nie istnieje.");
+//        }
+//        return car;
+//    }
+    public Car getCarById(Long id) {
+        Car car = restClient
+                .get()
+                .uri(BASE_URL + "/cars/" + id)
+                .retrieve()
+                .body(Car.class);
+        if (car != null) {
+            return car;
+        } else {
+            throw new CarNotFoundException("Samochód o id " + id + " nie istnieje.");
         }
-        return car;
     }
     public void saveCar(Car car) {
-        if (repository.existsById(car.getId())) {
-            throw new CarIdAlreadyExistsException("Samochód o identyfikatorze " + car.getId() + " już istnieje.");
+       if(car.getBrand().isEmpty() || car.getModel().isEmpty() || car.getPrice().isEmpty()){
+            throw new InvalidCarDataException("Nie można dodać samochodu o pustych polach.");
         }
-        car.setBrand(car.getBrand().toUpperCase());
-        car.setModel(car.getModel().toUpperCase());
-        car.setPrice(car.getPrice().toUpperCase());
-        repository.save(car);
+        ResponseEntity<Void> response=restClient
+                .post()
+                .uri(BASE_URL + "/cars")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(car)
+                .retrieve()
+                .toBodilessEntity();
     }
     public List<Car> getCars(){
-        return (List<Car>) repository.findAll();
+        List<Car> cars = restClient
+                .get()
+                .uri(BASE_URL + "/cars")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>(){});
+        return cars;
     }
-    public void deleteCars(int index) {
-        if (index < 0 || !repository.existsById((long) index)) {
-            throw new InvalidCarIdException("Nie można usunąć samochodu o indeksie " + index + ", ponieważ indeks jest nieprawidłowy lub samochód nie istnieje.");
-        }
-        repository.deleteById((long) index);
+    public void deleteCars(Long id) {
+        restClient
+                .delete()
+                .uri(BASE_URL + "/cars/" + id)
+                .retrieve()
+                .toBodilessEntity();
     }
     public void updateCars(Car car) {
-        if (!repository.existsById(car.getId())) {
+        if(car.getId()==null){
             throw new InvalidCarDataException("Nie można zaktualizować samochodu o identyfikatorze " + car.getId() + ", ponieważ nie istnieje.");
         }
-        repository.save(car);
+        restClient
+                .put()
+                .uri(BASE_URL + "/cars")
+                .body(car)
+                .retrieve()
+                .toBodilessEntity();
     }
-    public List<Car> filterByBrand(String name){
-        List<Car> allCars = (List<Car>) repository.findAll();
-        List<Car> filteredCars = new ArrayList<>();
-
-        for (Car car : allCars) {
-            if (car.getBrand().toUpperCase().equals(name.toUpperCase())) {
-                filteredCars.add(car);
-            }
-        }
-        return filteredCars;
-    }
+//    public List<Car> filterByBrand(String name){
+//        List<Car> allCars = (List<Car>) repository.findAll();
+//        List<Car> filteredCars = new ArrayList<>();
+//
+//        for (Car car : allCars) {
+//            if (car.getBrand().toUpperCase().equals(name.toUpperCase())) {
+//                filteredCars.add(car);
+//            }
+//        }
+//        return filteredCars;
+//    }
 }

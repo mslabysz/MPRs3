@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Dodaj auto:</h1>
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+<form action="#" th:action="@{/addCar}" th:object="${car}" method="post">
+    <table>
+        <tr>
+            <td>ID:</td>
+            <td>
+                <input id="id" type="text" th:field="*{id}" name="id" />
+                <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Marka:</td>
+            <td>
+                <input id="brand" type="text" th:field="*{brand}" name="brand" />
+                <span th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Model:</td>
+            <td>
+                <input id="model" type="text" th:field="*{model}" name="model" />
+                <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Cena:</td>
+            <td>
+                <input id="price" type="text" th:field="*{price}" name="price" />
+                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button id="submit" type="submit">Dodaj</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

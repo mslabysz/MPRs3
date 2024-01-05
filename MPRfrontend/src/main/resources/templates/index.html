@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Lista samochodow</h1>
+<p th:if="${successMessage}" th:text="${successMessage}"></p>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Marka</th>
+        <th>Model</th>
+        <th>Cena</th>
+        <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car, iterStat : ${cars}">
+        <td th:text="${car.id}"></td>
+        <td th:text="${car.brand}"></td>
+        <td th:text="${car.model}"></td>
+        <td th:text="${car.price}"></td>
+        <td>
+            <a th:id="'edit-'+(${iterStat.index}+1)" th:href="@{/editCar/{id}(id=${car.id})}">Edytuj</a>
+            <a th:id="'delete-'+(${iterStat.index}+1)" th:href="@{/deleteCar/{id}(id=${car.id})}" onclick="return confirm('Potwierdzenie')">Usun</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a class="add-link" id="add-new-car" th:href="@{/addCar}">Dodaj nowy samochod</a>
+</body>
+</html>
