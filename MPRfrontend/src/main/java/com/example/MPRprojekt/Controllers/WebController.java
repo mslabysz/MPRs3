@@ -51,8 +51,8 @@ public class WebController {
         }
         return null;
     }
-    @GetMapping("/editCar/{id}")
-    public String getEditCarView(@PathVariable("id") Long id, Model model){
+    @GetMapping(value = "/editCar/{id}")
+    public String getEditCarView(@PathVariable("id") long id, Model model){
         Car car = service.getCarById(id);
         if(car!=null){
             model.addAttribute("car",car);

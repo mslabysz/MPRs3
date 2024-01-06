@@ -68,7 +68,7 @@ public class CarService {
                 .retrieve()
                 .toBodilessEntity();
     }
-    public void updateCars(Car car) {
+    public void update(Car car) {
         if(car.getId()==null){
             throw new InvalidCarDataException("Nie można zaktualizować samochodu o identyfikatorze " + car.getId() + ", ponieważ nie istnieje.");
         }

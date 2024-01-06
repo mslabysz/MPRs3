@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CarController {
@@ -24,7 +25,7 @@ public class CarController {
     public ResponseEntity <List<Car>> getCars() {
        return ResponseEntity.ok(service.getCars());
     }
-    @GetMapping("/cars/{model}")
+    @GetMapping("/cars/model/{model}")
     public ResponseEntity <Car> findCarByModel(@PathVariable("model")String model){
         return ResponseEntity.ok(service.getCarByModel(model));
     }
@@ -42,6 +43,10 @@ public class CarController {
         service.saveCar(car);
         return ResponseEntity.status(HttpStatus.CREATED).body("Dodano nowy samochod");
     }
+    @GetMapping("/{id}")
+    public ResponseEntity <Optional<Car>> getCarById(@PathVariable("id") int id) {
+        return ResponseEntity.ok(service.getCarById((long) id));
+    }
 
     @DeleteMapping("/cars/{index}")
     public ResponseEntity<String> deleteCar(@PathVariable int index){
@@ -50,7 +55,7 @@ public class CarController {
     }
     @PutMapping("/cars")
     public ResponseEntity<String> updateCar(@RequestBody Car car){
-     service.updateCars(car);
+     service.update(car);
      return ResponseEntity.ok("Zaktualizowano samochod");
     }
 

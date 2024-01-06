@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CarService {
@@ -18,14 +19,19 @@ public class CarService {
         this.repository = repository;
     }
     public Car getCarByModel(String model) {
-        Car car = repository.findByModel(model);
-        if (car == null) {
-            throw new CarNotFoundException("Samochód o modelu " + model + " nie istnieje.");
+        return this.repository.findByModel(model);
+    }
+    public Optional<Car> getCarById(Long id) {
+        Optional<Car> car = repository.findById(id);
+
+        if (car.isPresent()) {
+            return car;
+        } else {
+            throw new InvalidCarIdException("Samochod o id " + id + " nie istnieje.");
         }
-        return car;
     }
     public void saveCar(Car car) {
-        if (repository.existsById(car.getId())) {
+        if (car.getId()!=null&&repository.existsById(car.getId())) {
             throw new CarIdAlreadyExistsException("Samochód o identyfikatorze " + car.getId() + " już istnieje.");
         }
         if(car.getBrand().isEmpty() || car.getModel().isEmpty() || car.getPrice().isEmpty()){
@@ -42,7 +48,7 @@ public class CarService {
         }
         repository.deleteById((long) index);
     }
-    public void updateCars(Car car) {
+    public void update(Car car) {
         if (car.getId()==null || !repository.existsById(car.getId())) {
             throw new InvalidCarDataException("Nie można zaktualizować samochodu o identyfikatorze " + car.getId() + ", ponieważ nie istnieje.");
         }
