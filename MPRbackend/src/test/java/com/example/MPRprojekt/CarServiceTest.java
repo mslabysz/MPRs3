@@ -13,38 +13,28 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class CarTest {
+public class CarServiceTest {
     @Mock
     private CarRepository repository;
     private AutoCloseable openMocks;
     private CarService carService;
-    private CarController carController;
-    private MockMvc mockMvc;
-
     @BeforeEach
     public void init(){
         openMocks = MockitoAnnotations.openMocks(this);
         carService = new CarService(repository);
-    }
-    @BeforeEach
-    public void setUp(){
-        carController = new CarController(carService);
-        this.mockMvc= MockMvcBuilders.standaloneSetup(carController)
-                .setControllerAdvice(new CarExceptionHandler())
-                .build();
     }
     @AfterEach
     public void tearDown() throws Exception{
@@ -114,7 +104,7 @@ public class CarTest {
         Car carToUpdate = new Car(1L,"BMW1","model1","20000");
         when(repository.existsById(carToUpdate.getId())).thenReturn(true);
 
-        carService.updateCars(carToUpdate);
+        carService.update(carToUpdate);
 
         Mockito.verify(repository, Mockito.times(1)).save(carToUpdate);
     }
@@ -125,7 +115,7 @@ public class CarTest {
         when(repository.existsById(carToUpdate.getId())).thenReturn(false);
 
         assertThrows(Exception.class, () -> {
-            carService.updateCars(carToUpdate);
+            carService.update(carToUpdate);
         });
 
         Mockito.verify(repository, Mockito.never()).save(carToUpdate);
@@ -136,37 +126,63 @@ public class CarTest {
         when(repository.existsById(car.getId())).thenReturn(true);
         assertThrows(CarIdAlreadyExistsException.class,()->carService.saveCar(car));
     }
+
     @Test
-    public void testFindCarByModelReturns200WhenCarIsPresent() throws Exception {
-        Car car = new Car(1L,"BMW1","model1","20000");
+public void findReturnsCarWhenModelExists(){
+    String model="existingModel";
+    Car expectedCar=new Car(2L,"BMW","existingModel","20000");
+    when(repository.findByModel(model)).thenReturn(expectedCar);
+    Car actualCar=carService.getCarByModel(model);
+    assertEquals(expectedCar, actualCar);
+}
 
-        when(carService.getCarByModel("model1")).thenReturn(car);
+@Test
+public void findReturnsNullWhenModelDoesNotExist(){
+    String model="nonExistingModel";
+    when(repository.findByModel(model)).thenReturn(null);
+    Car actualCar=carService.getCarByModel(model);
+    assertNull(actualCar);
+}
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/cars/model1"))
-                .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.model").value("model1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("BMW1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value("20000"));
-    }
-    @Test
-    public void testFindCarByModelReturns404WhenCarIsNotPresent() throws Exception {
-        when(carService.getCarByModel("X5")).thenReturn(null);
+@Test
+public void saveThrowsExceptionWhenCarAlreadyExists(){
+    Car existingCar=new Car(2L,"BMW","model","20000");
+    when(repository.existsById(existingCar.getId())).thenReturn(true);
+    assertThrows(CarIdAlreadyExistsException.class,()->carService.saveCar(existingCar));
+}
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/cars/X5"))
-                .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
-    @Test
-    public void testGetCarsReturns200WithValidJSON() throws Exception {
-        Car car = new Car(1L,"BMW1","model1","20000");
-        when(carService.getCars()).thenReturn(Collections.singletonList(car));
+@Test
+public void saveDoesNotThrowExceptionWhenCarDoesNotExist(){
+    Car nonExistingCar=new Car(3L,"Mercedes","model","30000");
+    when(repository.existsById(nonExistingCar.getId())).thenReturn(false);
+    assertDoesNotThrow(()->carService.saveCar(nonExistingCar));
+}
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/cars"))
-                .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].brand").value("BMW1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].model").value("model1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[3].price").value("20000"));
-    }
+@Test
+public void deleteThrowsExceptionWhenCarDoesNotExist(){
+    long nonExistingCarId = 4L;
+    when(repository.existsById(nonExistingCarId)).thenReturn(false);
+    assertThrows(Exception.class,()->carService.deleteCars((int) nonExistingCarId));
+}
+
+@Test
+public void deleteDoesNotThrowExceptionWhenCarExists(){
+    long existingCarId = 1L;
+    when(repository.existsById(existingCarId)).thenReturn(true);
+    assertDoesNotThrow(()->carService.deleteCars((int) existingCarId));
+}
+
+@Test
+public void updateThrowsExceptionWhenCarDoesNotExist(){
+    Car nonExistingCar=new Car(5L,"Audi","model","40000");
+    when(repository.existsById(nonExistingCar.getId())).thenReturn(false);
+    assertThrows(Exception.class,()->carService.update(nonExistingCar));
+}
+
+@Test
+public void updateDoesNotThrowExceptionWhenCarExists(){
+    Car existingCar=new Car(1L,"BMW1","model1","20000");
+    when(repository.existsById(existingCar.getId())).thenReturn(true);
+    assertDoesNotThrow(()->carService.update(existingCar));
+}
 }

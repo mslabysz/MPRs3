@@ -6,3 +6,19 @@ body{
     line-height: 1.5;
     color: #292b2c;
 }
+button{
+    background-color: #292b2c;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin: 10px;
+}
+a{
+    background-color: #292b2c;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin: 10px;
+}
