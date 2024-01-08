@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.MPRprojekt.CarServiceTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2024-01-08T14:47:06" hostname="MacBook-Air-Maks.local" time="1.937">
+<testsuite name="com.example.MPRprojekt.CarServiceTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2024-01-08T14:57:39" hostname="MacBook-Air-Maks.local" time="1.957">
   <properties/>
-  <testcase name="findReturnsCarWhenModelExists()" classname="com.example.MPRprojekt.CarServiceTest" time="1.672"/>
-  <testcase name="carAddThrowsExceptionWhenCarPresent()" classname="com.example.MPRprojekt.CarServiceTest" time="0.043"/>
-  <testcase name="deleteThrowsExceptionWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.031"/>
-  <testcase name="updateThrowsExceptionWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.022"/>
-  <testcase name="testUpdateCar()" classname="com.example.MPRprojekt.CarServiceTest" time="0.016"/>
-  <testcase name="saveThrowsExceptionWhenCarAlreadyExists()" classname="com.example.MPRprojekt.CarServiceTest" time="0.009"/>
-  <testcase name="deleteDoesNotThrowExceptionWhenCarExists()" classname="com.example.MPRprojekt.CarServiceTest" time="0.007"/>
-  <testcase name="updateDoesNotThrowExceptionWhenCarExists()" classname="com.example.MPRprojekt.CarServiceTest" time="0.016"/>
-  <testcase name="testGetCars()" classname="com.example.MPRprojekt.CarServiceTest" time="0.007"/>
-  <testcase name="findReturnsNullWhenModelDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.005"/>
-  <testcase name="saveSaves()" classname="com.example.MPRprojekt.CarServiceTest" time="0.012"/>
-  <testcase name="testDeleteCar()" classname="com.example.MPRprojekt.CarServiceTest" time="0.008"/>
-  <testcase name="findFinds()" classname="com.example.MPRprojekt.CarServiceTest" time="0.013"/>
-  <testcase name="testUpdateCarWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.006"/>
-  <testcase name="testFilterByBrand()" classname="com.example.MPRprojekt.CarServiceTest" time="0.01"/>
-  <testcase name="saveDoesNotThrowExceptionWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.01"/>
+  <testcase name="findReturnsCarWhenModelExists()" classname="com.example.MPRprojekt.CarServiceTest" time="1.696"/>
+  <testcase name="carAddThrowsExceptionWhenCarPresent()" classname="com.example.MPRprojekt.CarServiceTest" time="0.038"/>
+  <testcase name="deleteThrowsExceptionWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.036"/>
+  <testcase name="updateThrowsExceptionWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.012"/>
+  <testcase name="testUpdateCar()" classname="com.example.MPRprojekt.CarServiceTest" time="0.018"/>
+  <testcase name="saveThrowsExceptionWhenCarAlreadyExists()" classname="com.example.MPRprojekt.CarServiceTest" time="0.01"/>
+  <testcase name="deleteDoesNotThrowExceptionWhenCarExists()" classname="com.example.MPRprojekt.CarServiceTest" time="0.008"/>
+  <testcase name="updateDoesNotThrowExceptionWhenCarExists()" classname="com.example.MPRprojekt.CarServiceTest" time="0.015"/>
+  <testcase name="testGetCars()" classname="com.example.MPRprojekt.CarServiceTest" time="0.012"/>
+  <testcase name="findReturnsNullWhenModelDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.007"/>
+  <testcase name="saveSaves()" classname="com.example.MPRprojekt.CarServiceTest" time="0.016"/>
+  <testcase name="testDeleteCar()" classname="com.example.MPRprojekt.CarServiceTest" time="0.007"/>
+  <testcase name="findFinds()" classname="com.example.MPRprojekt.CarServiceTest" time="0.007"/>
+  <testcase name="testUpdateCarWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.01"/>
+  <testcase name="testFilterByBrand()" classname="com.example.MPRprojekt.CarServiceTest" time="0.009"/>
+  <testcase name="saveDoesNotThrowExceptionWhenCarDoesNotExist()" classname="com.example.MPRprojekt.CarServiceTest" time="0.009"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
