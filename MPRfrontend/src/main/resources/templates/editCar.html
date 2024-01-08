@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
+<img th:src="@{/photos/capybruh.jpg}" alt="capybruh" width="15%" height="15%">
 <h1>Edytuj samochod:</h1>
 <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
 <p>Edytowane auto: [[${car.id}]]</p>
