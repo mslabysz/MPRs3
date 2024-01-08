@@ -74,7 +74,7 @@ public class CarService {
         }
         restClient
                 .put()
-                .uri(BASE_URL + "/cars")
+                .uri(BASE_URL + "/cars/" + car.getId())
                 .body(car)
                 .retrieve()
                 .toBodilessEntity();

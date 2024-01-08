@@ -43,7 +43,7 @@ public class CarController {
         service.saveCar(car);
         return ResponseEntity.status(HttpStatus.CREATED).body("Dodano nowy samochod");
     }
-    @GetMapping("/{id}")
+    @GetMapping("cars/{id}")
     public ResponseEntity <Optional<Car>> getCarById(@PathVariable("id") int id) {
         return ResponseEntity.ok(service.getCarById((long) id));
     }
@@ -53,10 +53,11 @@ public class CarController {
         service.deleteCars(index);
         return ResponseEntity.ok("Usunieto samochod");
     }
-    @PutMapping("/cars")
-    public ResponseEntity<String> updateCar(@RequestBody Car car){
-     service.update(car);
-     return ResponseEntity.ok("Zaktualizowano samochod");
+    @PutMapping("/cars/{id}")
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Car car){
+        car.setId(id);
+        service.update(car);
+        return ResponseEntity.ok("Zaktualizowano samochod");
     }
 
 }

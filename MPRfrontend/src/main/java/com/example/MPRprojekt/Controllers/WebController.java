@@ -68,7 +68,7 @@ public class WebController {
             model.addAttribute("errorMessage",errorMessage);
             return "editCar";
         }
-        service.saveCar(car);
+        service.update(car);
         redirectAttributes.addFlashAttribute("successMessage","Zaktualizowano samochod");
         return "redirect:/index";
     }
