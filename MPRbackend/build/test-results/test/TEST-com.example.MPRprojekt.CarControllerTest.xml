@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.MPRprojekt.CarControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-09T13:58:06" hostname="MacBook-Air-Maks.local" time="3.131">
+  <properties/>
+  <testcase name="getCarByIdReturnsCarWhenCarExists()" classname="com.example.MPRprojekt.CarControllerTest" time="3.131"/>
+  <system-out><![CDATA[14:58:08.863 [Test worker] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+14:58:08.867 [Test worker] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+14:58:08.885 [Test worker] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 3 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

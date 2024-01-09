@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-<img th:src="@{/photos/capyprogrammer.jpg}" alt="capyprogrammer" width="15%" height="15%">
+<img th:src="@{/photos/capyprogrammer.jpg}" alt="capyprogrammer" width="30%" height="45%">
 <h1>Dodaj auto:</h1>
 <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
 <form action="#" th:action="@{/addCar}" th:object="${car}" method="post">
