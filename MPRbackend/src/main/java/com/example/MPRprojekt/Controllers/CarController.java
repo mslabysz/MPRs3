@@ -43,7 +43,7 @@ public class CarController {
         service.saveCar(car);
         return ResponseEntity.status(HttpStatus.CREATED).body("Dodano nowy samochod");
     }
-    @GetMapping("cars/{id}")
+    @GetMapping("/cars/{id}")
     public ResponseEntity <Optional<Car>> getCarById(@PathVariable("id") int id) {
         return ResponseEntity.ok(service.getCarById((long) id));
     }

@@ -21,6 +21,12 @@ public class Car {
         this.price = price;
     }
 
+    public Car(String brand, String model, String price) {
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
+    }
+
     public Car() {
     }
 
