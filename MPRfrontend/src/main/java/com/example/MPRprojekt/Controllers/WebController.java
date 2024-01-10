@@ -47,7 +47,10 @@ public class WebController {
     }
     private String validateCar(Car car){
         if(car.getBrand().isEmpty() || car.getModel().isEmpty() || car.getPrice().isEmpty()){
-            return "Nie można dodać samochodu o pustych polach.";
+            return "Wszystkie pola musza byc wypelnione";
+        }
+        if(car.getPrice().matches("[0-9]+")==false){
+            return "Cena musi byc liczba";
         }
         return null;
     }

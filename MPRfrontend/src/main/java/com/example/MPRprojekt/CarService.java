@@ -22,13 +22,6 @@ public class CarService {
     public CarService(){
         restClient = RestClient.create();
     }
-//    public Car getCarByModel(String model) {
-//        Car car = repository.findByModel(model);
-//        if (car == null) {
-//            throw new CarNotFoundException("Samochód o modelu " + model + " nie istnieje.");
-//        }
-//        return car;
-//    }
     public Car getCarById(Long id) {
         Car car = restClient
                 .get()
@@ -54,6 +47,13 @@ public class CarService {
                 .toBodilessEntity();
     }
     public List<Car> getCars(){
+        if(restClient
+                .get()
+                .uri(BASE_URL + "/cars")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>(){})==null){
+            throw new CarNotFoundException("Nie znaleziono żadnych samochodów.");
+        }
         List<Car> cars = restClient
                 .get()
                 .uri(BASE_URL + "/cars")
@@ -62,6 +62,9 @@ public class CarService {
         return cars;
     }
     public void deleteCars(Long id) {
+        if(id==null){
+            throw new InvalidCarIdException("Nie można usunąć samochodu o indeksie " + id + ", ponieważ indeks jest nieprawidłowy lub samochód nie istnieje.");
+        }
         restClient
                 .delete()
                 .uri(BASE_URL + "/cars/" + id)
@@ -79,15 +82,4 @@ public class CarService {
                 .retrieve()
                 .toBodilessEntity();
     }
-//    public List<Car> filterByBrand(String name){
-//        List<Car> allCars = (List<Car>) repository.findAll();
-//        List<Car> filteredCars = new ArrayList<>();
-//
-//        for (Car car : allCars) {
-//            if (car.getBrand().toUpperCase().equals(name.toUpperCase())) {
-//                filteredCars.add(car);
-//            }
-//        }
-//        return filteredCars;
-//    }
 }
