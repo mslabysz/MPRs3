@@ -74,5 +74,4 @@ public class CarController {
         service.update(car);
         return ResponseEntity.ok("Zaktualizowano samochod");
     }
-
 }

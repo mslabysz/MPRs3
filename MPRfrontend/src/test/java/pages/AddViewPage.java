@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class AddViewPage {
     public static final String URL= "http://localhost:8081/addCar";
@@ -17,6 +18,7 @@ public class AddViewPage {
     WebDriver webDriver;
     public AddViewPage(WebDriver webDriver) {
         this.webDriver = webDriver;
+        PageFactory.initElements(webDriver, this);
     }
     public void open(){
         webDriver.get(URL);

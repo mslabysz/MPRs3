@@ -21,7 +21,7 @@ public class EditViewPage {
         PageFactory.initElements(webDriver, this);
     }
     public void open(){
-        webDriver.get(URL+"?id=1");
+        webDriver.get(URL+"/2");
     }
     public void fillInBrand(String brand){
         this.brand.sendKeys(brand);
@@ -34,5 +34,14 @@ public class EditViewPage {
     }
     public void submit(){
         submitButton.click();
+    }
+    public void clearBrand(){
+        brand.clear();
+    }
+    public void clearModel(){
+        model.clear();
+    }
+    public void clearPrice(){
+        price.clear();
     }
 }

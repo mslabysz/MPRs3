@@ -53,7 +53,12 @@ public class AddPageTest {
     public void submit(){
         AddViewPage addViewPage = new AddViewPage(webDriver);
         addViewPage.open();
+        addViewPage.fillInBrand("brand");
+        addViewPage.fillInModel("model");
+        addViewPage.fillInPrice("price");
         addViewPage.submit();
-        assertEquals("http://localhost:8081/index", webDriver.getCurrentUrl());
+        String actualUrl = webDriver.getCurrentUrl();
+        String baseUrl = actualUrl.split(";jsessionid")[0];
+        assertEquals("http://localhost:8081/index", baseUrl);
     }
 }
