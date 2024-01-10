@@ -34,106 +34,114 @@ public class CarControllerTest {
     private CarService carService;
     @InjectMocks
     private CarController carController;
+
     @BeforeEach
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new CarExceptionHandler(),carController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new CarExceptionHandler(), carController).build();
     }
 
     @Test
     public void testFindCarByModelReturns200WhenCarIsPresent() throws Exception {
-        Car car = new Car(1L,"BMW1","model1","20000");
+        Car car = new Car("BMW1", "model1", "20000");
 
         when(carService.getCarByModel("model1")).thenReturn(car);
 
-        mockMvc.perform(get("/cars/model1"))
+        mockMvc.perform(get("/cars/model/model1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("BMW1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.model").value("model1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.price").value("20000"));
     }
+
     @Test
     public void testFindCarByModelReturns404WhenCarIsNotPresent() throws Exception {
         when(carService.getCarByModel("X5")).thenReturn(null);
 
-        mockMvc.perform(get("/cars/X5"))
+        mockMvc.perform(get("/cars/model/X5"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
     @Test
-    public void testGetCarsReturns200WithValidJSON() throws Exception {
-        Car car = new Car(1L,"BMW1","model1","20000");
-        when(carService.getCars()).thenReturn(Collections.singletonList(car));
+    public void findCarByModelReturnsCarWhenModelExists() throws Exception {
+        Car car = new Car(1L, "BMW1", "model1", "20000");
+
+        when(carService.getCarByModel("model1")).thenReturn(car);
+
+        mockMvc.perform(get("/cars/model/model1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("BMW1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.model").value("model1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value("20000"));
+    }
+
+    @Test
+    public void findCarByModelReturnsNotFoundWhenModelDoesNotExist() throws Exception {
+        when(carService.getCarByModel("nonExistingModel")).thenReturn(null);
+
+        mockMvc.perform(get("/cars/model/nonExistingModel"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void getCarsReturnsEmptyListWhenNoCarsExist() throws Exception {
+        when(carService.getCars()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/cars"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].brand").value("BMW1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].model").value("model1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[3].price").value("20000"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(0)));
+    }
+
+
+    @Test
+    public void getCarByIdReturnsCarWhenCarExists() throws Exception {
+        Car car = new Car(1L, "BMW1", "model1", "20000");
+        when(carService.getCarById(1L)).thenReturn(Optional.of(car));
+
+        mockMvc.perform(get("/cars/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("BMW1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.model").value("model1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value("20000"));
     }
 
     @Test
-public void findCarByModelReturnsCarWhenModelExists() throws Exception {
-    Car car = new Car(1L,"BMW1","model1","20000");
+    public void getCarByIdReturnsNotFoundWhenCarDoesNotExist() throws Exception {
+        when(carService.getCarById(1L)).thenReturn(Optional.empty());
 
-    when(carService.getCarByModel("model1")).thenReturn(car);
+        mockMvc.perform(get("/cars/1"))
+                .andExpect(status().isNotFound());
+    }
 
-    mockMvc.perform(get("/cars/model1"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("BMW1"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.model").value("model1"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.price").value("20000"));
-}
+    @Test
+    public void deleteCarReturnsOkWhenCarExists() throws Exception {
+        doNothing().when(carService).deleteCars(1);
 
-@Test
-public void findCarByModelReturnsNotFoundWhenModelDoesNotExist() throws Exception {
-    when(carService.getCarByModel("nonExistingModel")).thenReturn(null);
+        mockMvc.perform(delete("/cars/1"))
+                .andExpect(status().isOk());
+    }
 
-    mockMvc.perform(get("/cars/nonExistingModel"))
-            .andDo(print())
-            .andExpect(status().isNotFound());
-}
+    @Test
+    public void deleteCarReturnsNotFoundWhenCarDoesNotExist() throws Exception {
+        doNothing().when(carService).deleteCars(1);
 
-@Test
-public void getCarsReturnsEmptyListWhenNoCarsExist() throws Exception {
-    when(carService.getCars()).thenReturn(Collections.emptyList());
+        mockMvc.perform(delete("/cars/1"))
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void filterByBrandReturnsCarsWhenCarsExist() throws Exception {
+        Car car = new Car(1L, "BMW1", "model1", "20000");
+        when(carService.filterByBrand("BMW1")).thenReturn(Collections.singletonList(car));
 
-    mockMvc.perform(get("/cars"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(0)));
-}
-
-
-
-@Test
-public void getCarByIdReturnsCarWhenCarExists() throws Exception {
-    Car car = new Car(1L,"BMW1","model1","20000");
-    when(carService.getCarById(1L)).thenReturn(Optional.of(car));
-
-    mockMvc.perform(get("/cars/1"))
-            .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("BMW1"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.model").value("model1"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.price").value("20000"));
-}
-
-@Test
-public void getCarByIdReturnsNotFoundWhenCarDoesNotExist() throws Exception {
-    when(carService.getCarById(1L)).thenReturn(Optional.empty());
-
-    mockMvc.perform(get("/cars/1"))
-            .andExpect(status().isNotFound());
-}
-
-@Test
-public void deleteCarReturnsOkWhenCarExists() throws Exception {
-    doNothing().when(carService).deleteCars(1);
-
-    mockMvc.perform(delete("/cars/1"))
-            .andExpect(status().isOk());
-}
-
+        mockMvc.perform(get("/cars/filterByBrand?name=BMW1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].brand").value("BMW1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].model").value("model1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].price").value("20000"));
+    }
 }

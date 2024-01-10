@@ -27,6 +27,9 @@ public class CarController {
     }
     @GetMapping("/cars/model/{model}")
     public ResponseEntity <Car> findCarByModel(@PathVariable("model")String model){
+        if(service.getCarByModel(model)==null){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(service.getCarByModel(model));
     }
     @GetMapping("/cars/filterByBrand")
@@ -40,21 +43,33 @@ public class CarController {
     }
     @PostMapping("/cars")
     public ResponseEntity<String> addCar(@RequestBody Car car){
+        if(car.getBrand().isEmpty() || car.getModel().isEmpty() || car.getPrice().isEmpty()){
+            return ResponseEntity.badRequest().body("Nie mozna dodac samochodu o pustych polach");
+        }
         service.saveCar(car);
         return ResponseEntity.status(HttpStatus.CREATED).body("Dodano nowy samochod");
     }
     @GetMapping("/cars/{id}")
     public ResponseEntity <Optional<Car>> getCarById(@PathVariable("id") int id) {
+        if(!service.getCarById((long) id).isPresent()){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(service.getCarById((long) id));
     }
 
     @DeleteMapping("/cars/{index}")
     public ResponseEntity<String> deleteCar(@PathVariable int index){
+        if(index<0){
+            return ResponseEntity.badRequest().body("Nieprawidlowy indeks");
+        }
         service.deleteCars(index);
         return ResponseEntity.ok("Usunieto samochod");
     }
     @PutMapping("/cars/{id}")
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Car car){
+        if(id==null){
+            return ResponseEntity.badRequest().body("Nieprawidlowy index");
+        }
         car.setId(id);
         service.update(car);
         return ResponseEntity.ok("Zaktualizowano samochod");

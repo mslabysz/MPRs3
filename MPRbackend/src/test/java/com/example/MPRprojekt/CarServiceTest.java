@@ -185,4 +185,11 @@ public void updateDoesNotThrowExceptionWhenCarExists(){
     when(repository.existsById(existingCar.getId())).thenReturn(true);
     assertDoesNotThrow(()->carService.update(existingCar));
 }
+@Test
+    public void  getCarByIdTest(){
+        Car car=new Car(1L,"BMW1","model1","20000");
+        when(repository.findById(1L)).thenReturn(Optional.of(car));
+        Optional<Car> result=carService.getCarById(1L);
+        assertEquals(car,result.get());
+    }
 }
