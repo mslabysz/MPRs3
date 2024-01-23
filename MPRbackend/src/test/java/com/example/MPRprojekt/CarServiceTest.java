@@ -3,6 +3,7 @@ package com.example.MPRprojekt;
 import com.example.MPRprojekt.Controllers.CarController;
 import com.example.MPRprojekt.Controllers.CarExceptionHandler;
 import com.example.MPRprojekt.Exceptions.CarIdAlreadyExistsException;
+import com.example.MPRprojekt.Exceptions.InvalidCarDataException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -192,4 +193,24 @@ public void updateDoesNotThrowExceptionWhenCarExists(){
         Optional<Car> result=carService.getCarById(1L);
         assertEquals(car,result.get());
     }
+    @Test
+    public void getCarByIdThrowsExceptionWhenCarDoesNotExist(){
+        long nonExistingCarId = 4L;
+        when(repository.findById(nonExistingCarId)).thenReturn(Optional.empty());
+        assertThrows(Exception.class,()->carService.getCarById(nonExistingCarId));
+    }
+    @Test
+public void saveThrowsExceptionWhenCarDataIsEmpty(){
+    Car carWithEmptyData = new Car(1L, "", "", "");
+    assertThrows(InvalidCarDataException.class, () -> carService.saveCar(carWithEmptyData));
+
+    Car carWithEmptyBrand = new Car(2L, "", "model", "20000");
+    assertThrows(InvalidCarDataException.class, () -> carService.saveCar(carWithEmptyBrand));
+
+    Car carWithEmptyModel = new Car(3L, "brand", "", "20000");
+    assertThrows(InvalidCarDataException.class, () -> carService.saveCar(carWithEmptyModel));
+
+    Car carWithEmptyPrice = new Car(4L, "brand", "model", "");
+    assertThrows(InvalidCarDataException.class, () -> carService.saveCar(carWithEmptyPrice));
+}
 }

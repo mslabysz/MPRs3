@@ -72,19 +72,6 @@ a:hover {
 .add-link:hover {
     background-color: #0056b3; /* Darker button color on hover */
 }
-.submit{
-    /* Add your styles here */
-    background-color: #4CAF50; /* for example, green background */
-    border: none; /* no border */
-    color: white; /* white text */
-    padding: 15px 32px; /* padding */
-    text-align: center; /* center text */
-    text-decoration: none; /* no underline */
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer; /* pointer cursor on hover */
-}
 /*!* Add Google Font *!*/
 
 /*body {*/
