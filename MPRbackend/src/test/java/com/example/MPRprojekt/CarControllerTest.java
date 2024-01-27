@@ -13,18 +13,20 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import java.util.Collections;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -144,4 +146,66 @@ public class CarControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].model").value("model1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].price").value("20000"));
     }
+@Test
+public void addCarReturnsCreatedWhenCarIsValid() throws Exception {
+    Car car = new Car(1L, "BMW1", "model1", "20000");
+    doNothing().when(carService).saveCar(any(Car.class));
+
+    mockMvc.perform(post("/cars")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(car)))
+            .andExpect(status().isCreated());
+}
+
+@Test
+public void addCarReturnsBadRequestWhenCarIsInvalid() throws Exception {
+    Car car = new Car(1L, "", "", "");
+
+    mockMvc.perform(post("/cars")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(car)))
+            .andExpect(status().isBadRequest());
+}
+
+@Test
+public void updateCarReturnsOkWhenCarExists() throws Exception {
+    Car car = new Car(1L, "BMW1", "model1", "20000");
+    doNothing().when(carService).update(any(Car.class));
+
+    mockMvc.perform(put("/cars/1")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(car)))
+            .andExpect(status().isOk());
+}
+@Test
+public void addCarReturnsBadRequestWhenCarFieldsAreEmpty() throws Exception {
+    Car car = new Car(1L, "", "", "");
+
+    mockMvc.perform(post("/cars")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(car)))
+            .andExpect(status().isBadRequest());
+}
+@Test
+public void updateCarReturnsBadRequestWhenIdIsNull() throws Exception {
+    Car car = new Car(1L, "BMW1", "model1", "20000");
+
+    mockMvc.perform(put("/cars/null")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(car)))
+            .andExpect(status().isBadRequest());
+
+}
+@Test
+public void deleteCarReturnsBadRequestWhenIndexIsNegative() throws Exception {
+    mockMvc.perform(delete("/cars/-1"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("Nieprawidlowy indeks"));
+}
+@Test
+public void filterByBrandReturnsNoContentWhenNoCarsExist() throws Exception {
+    mockMvc.perform(get("/cars/filterByBrand")
+            .param("name", "NonExistentBrand"))
+            .andExpect(status().isNoContent());
+}
 }

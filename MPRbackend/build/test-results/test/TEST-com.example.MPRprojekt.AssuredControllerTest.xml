@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.MPRprojekt.AssuredControllerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-01-23T11:18:28" hostname="MacBook-Air-Maks.local" time="5.194">
+<testsuite name="com.example.MPRprojekt.AssuredControllerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-01-27T21:17:05" hostname="MacBook-Air-Maks.local" time="5.394">
   <properties/>
-  <testcase name="testGetCars2()" classname="com.example.MPRprojekt.AssuredControllerTest" time="4.347"/>
-  <testcase name="testUpdateCar()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.547"/>
-  <testcase name="testPostCar()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.053"/>
-  <testcase name="testGetCarsByBrand()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.105"/>
-  <testcase name="testGetCars()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.025"/>
-  <testcase name="testDeleteCar()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.046"/>
-  <testcase name="testGetCarsById()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.049"/>
+  <testcase name="testGetCars2()" classname="com.example.MPRprojekt.AssuredControllerTest" time="4.475"/>
+  <testcase name="testUpdateCar()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.649"/>
+  <testcase name="testPostCar()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.045"/>
+  <testcase name="testGetCarsByBrand()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.089"/>
+  <testcase name="testGetCars()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.023"/>
+  <testcase name="testDeleteCar()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.048"/>
+  <testcase name="testGetCarsById()" classname="com.example.MPRprojekt.AssuredControllerTest" time="0.048"/>
   <system-out><![CDATA[Zaktualizowano samochod
 Dodano nowy samochod
 Usunieto samochod

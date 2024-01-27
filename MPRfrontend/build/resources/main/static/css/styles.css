@@ -25,6 +25,10 @@ body {
 h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
+    text-shadow: 2px 2px 4px #000000;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+
 }
 
 p {
@@ -37,15 +41,14 @@ table {
     /*border-collapse: collapse;*/
 }
 
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #444;
+td {
+    padding: 15px;
+    border-bottom: 2px solid #444;
     text-align: center;
-}
-
-th {
-    background-color: #333;
+    font-family: 'Roboto', sans-serif;
     color: #fff;
+    background-color: #333;
+
 }
 
 tbody tr:nth-child(even) {
@@ -72,24 +75,83 @@ a:hover {
 .add-link:hover {
     background-color: #0056b3; /* Darker button color on hover */
 }
-/*!* Add Google Font *!*/
+#submit {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
 
-/*body {*/
-/*    font-family: 'Roboto', sans-serif; !* Use custom font *!*/
-/*}*/
+#submit:hover {
+    background-color: #45a049;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
 
-/*a, .add-link {*/
-/*    transition: all 0.3s ease; !* Add transition effect *!*/
-/*}*/
+input[type="text"]:focus {
+    border: 3px solid #555;
+}
+span {
+    color: red;
+    font-weight: bold;
+}
+.edit-button {
+    background-color: #0000cc;
+    color: white;
+}
 
-/*tbody tr:hover {*/
-/*    background-color: #444; !* Add hover effect to table rows *!*/
-/*}*/
+.delete-button {
+    background-color: #cc0000;
+    color: white;
+}
+th {
+    padding: 15px;
+    border-bottom: 2px solid #444;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    background-color: #555; /* Darker background color */
+    font-weight: bold; /* Make the text bold */
+    text-transform: uppercase; /* Make the text uppercase */
+}
+@keyframes bounceImage {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(50%); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}
 
-/*.add-link {*/
-/*    box-shadow: 0 2px 5px rgba(0,0,0,0.3); !* Add 3D effect to button *!*/
-/*}*/
-
-/*.add-link:hover {*/
-/*    box-shadow: 0 2px 10px rgba(0,0,0,0.5); !* Enhance 3D effect on hover *!*/
-/*}*/
+.moving-image {
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounceImage 5s linear infinite;
+}
+.pet {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: url('../photos/pet.png') no-repeat;
+    background-size: cover;
+}
+.pets-control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}

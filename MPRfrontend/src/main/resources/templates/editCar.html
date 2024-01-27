@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-<img th:src="@{/photos/capybruh.jpg}" alt="capybruh" width="30%" height="45%">
+<img class="moving-image" th:src="@{/photos/capybruh.jpg}" alt="capybruh" width="30%" height="45%">
 <h1>Edytuj samochod:</h1>
 <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
 <p>Edytowane auto: [[${car.id}]]</p>
@@ -27,10 +27,11 @@
         </tr>
         <tr>
             <td colspan="2">
-                <button id="submit" type="submit">Submit</button>
+                <button id="submit" type="submit">Edytuj</button>
             </td>
         </tr>
     </table>
 </form>
+<a href="/index" class="add-link">Wroc do strony glownej</a>
 </body>
 </html>
