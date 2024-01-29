@@ -110,12 +110,12 @@ span {
     color: red;
     font-weight: bold;
 }
-.edit-button {
+.edit-button,.increase{
     background-color: #0000cc;
     color: white;
 }
 
-.delete-button {
+.delete-button,.decrease {
     background-color: #cc0000;
     color: white;
 }

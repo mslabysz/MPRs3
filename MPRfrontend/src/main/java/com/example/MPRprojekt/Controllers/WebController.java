@@ -49,7 +49,7 @@ public class WebController {
         if(car.getBrand().isEmpty() || car.getModel().isEmpty() || car.getPrice().isEmpty()){
             return "Wszystkie pola musza byc wypelnione";
         }
-        if(car.getPrice().matches("[0-9]+")==false){
+        if(!car.getPrice().matches("[0-9]+")){
             return "Cena musi byc liczba";
         }
         return null;
