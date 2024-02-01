@@ -1,7 +1,7 @@
 var pets = [
-    // { element: document.getElementById('pet1'), x: 50, y: 100, speedX: 1, speedY: 1 },
-    // { element: document.getElementById('pet2'), x: 200, y: 300, speedX: -1, speedY: 1 },
-    // { element: document.getElementById('pet3'), x: 500, y: 600, speedX: 1, speedY: -1 }
+    { element: document.getElementById('pet1'), x: 50, y: 100, speedX: 1, speedY: 1 },
+    { element: document.getElementById('pet2'), x: 200, y: 300, speedX: -1, speedY: 1 },
+    { element: document.getElementById('pet3'), x: 500, y: 600, speedX: 1, speedY: -1 }
 ];
 document.getElementById('increase').addEventListener('click', increasePets);
 document.getElementById('decrease').addEventListener('click', decreasePets);

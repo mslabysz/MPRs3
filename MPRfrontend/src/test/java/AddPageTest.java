@@ -59,6 +59,6 @@ public class AddPageTest {
         addViewPage.submit();
         String actualUrl = webDriver.getCurrentUrl();
         String baseUrl = actualUrl.split(";jsessionid")[0];
-        assertEquals("http://localhost:8081/index", baseUrl);
+        assertEquals("http://localhost:8081/addCar", baseUrl);
     }
 }

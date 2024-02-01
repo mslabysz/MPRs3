@@ -11,13 +11,11 @@ public class AssuredControllerTest {
 
     @Test
 public void testGetCarsById() {
-    // Ensure a car with id 1 exists
     with()
         .body(new Car("Audi", "A4", "20000"))
         .contentType("application/json")
         .post(URI + "/cars/2");
 
-    // Get the car
     when()
         .get(URI + "/cars/2")
         .then()

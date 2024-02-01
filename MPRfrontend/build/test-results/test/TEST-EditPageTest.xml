@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="EditPageTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-01-30T10:34:43" hostname="MacBook-Air-Maks.local" time="20.172">
+  <properties/>
+  <testcase name="fillInBrand()" classname="EditPageTest" time="5.256"/>
+  <testcase name="fillInModel()" classname="EditPageTest" time="3.562"/>
+  <testcase name="fillInPrice()" classname="EditPageTest" time="3.633"/>
+  <testcase name="submit()" classname="EditPageTest" time="3.838"/>
+  <testcase name="open()" classname="EditPageTest" time="3.867"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
